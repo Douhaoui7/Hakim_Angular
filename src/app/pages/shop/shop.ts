@@ -3,5 +3,4 @@
 export interface IShop {
     nom : string,
     adresse:string,
-
 }

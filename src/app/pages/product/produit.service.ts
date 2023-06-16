@@ -21,9 +21,13 @@ export class ProduitService {
                 {
                     nom:"Iphone 11",
                     code:"IP11",
-                    qte:"120"
+                    qte:"120",
+                    image:""
+
                 }
             ]
         }
     }
 }
+
+

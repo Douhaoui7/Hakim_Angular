@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  Validators } from '@angular/forms'
-import { FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { IShop } from './shop';
 import { ShopService } from './shop.service';
 
@@ -10,42 +9,70 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  // Declaration de l'objet Shop
-  public shop:IShop[] = []
+  public shop: IShop[] = [];
+  appState: string = 'create';
+  editIndex = 1;
+  fileConvert = '';
 
-    // Construction de l'objet Shop
-  constructor(private fb: FormBuilder,private shopService : ShopService ) { }
+  constructor(private fb: FormBuilder, private shopService: ShopService) {}
 
-    // Validation du formulaire et serialisation-deserialisation 
   contactForm = this.fb.group({
-    nom: ['',[Validators.minLength(3), Validators.required]],
-    adresse: ['',[Validators.minLength(3), Validators.required]],
+    nom: ['', [Validators.minLength(3), Validators.required]],
+    adresse: ['', [Validators.minLength(3), Validators.required]],
+    image: [''],
   });
 
-    //Recuperation de la liste des boutiques (shop) a partir du local storage
   ngOnInit(): void {
-    this.shop = this.shopService.getShop()
+    this.shop = this.shopService.getShop();
   }
 
-      //Enregistrement de l'objet shop
   onSubmit() {
-    if (!!localStorage.getItem("saveShop")) {
+    if (this.appState === 'create') {
+      if (!!localStorage.getItem('saveShop')) {
+        let iShop: IShop[] = [];
+        let local = localStorage.getItem('saveShop');
+        if (!!local) iShop = JSON.parse(local);
 
-      let iShop: IShop[] = []
-      let local = localStorage.getItem("saveShop")
-      if (!!local)
-        iShop = JSON.parse(local)
+        iShop.push(this.contactForm.value);
+        localStorage.setItem('saveShop', JSON.stringify(iShop));
+      } else {
+        let save: IShop[] = [];
+        save.push(this.contactForm.value);
+        localStorage.setItem('saveShop', JSON.stringify(save));
+      }
 
-      iShop.push(this.contactForm.value)
-      localStorage.setItem("saveShop", JSON.stringify(iShop))
-
-    } else {
-      let save: IShop[] = []
-      save.push(this.contactForm.value)
-      localStorage.setItem("saveShop", JSON.stringify(save))
+      this.shop = this.shopService.getShop();
+    } else if (this.appState === 'edit') {
+      if (!!localStorage.getItem('saveShop')) {
+        let iShop: IShop[] = [];
+        let local = localStorage.getItem('saveShop');
+        if (!!local) iShop = JSON.parse(local);
+        iShop.splice(this.editIndex, 1, this.contactForm.value);
+        localStorage.setItem('saveShop', JSON.stringify(iShop));
+      }
     }
+    this.contactForm.reset();
+    this.shop = this.shopService.getShop();
+  }
 
-    this.shop = this.shopService.getShop()
+  deleteShop(shop: IShop, index: number) {
+    if (!!localStorage.getItem('saveShop')) {
+      let iShop: IShop[] = [];
+      let local = localStorage.getItem('saveShop');
+      if (!!local) iShop = JSON.parse(local);
+      iShop.splice(index, 1);
+
+      localStorage.setItem('saveShop', JSON.stringify(iShop));
+
+      this.shop = this.shopService.getShop();
+    }
+  }
+
+  updateShop(shop: IShop, index: number) {
+    this.contactForm.get('adresse')?.setValue(shop.adresse.toString());
+    this.contactForm.get('nom')?.setValue(shop.nom.toString());
+    this.appState = 'edit';
+    this.editIndex = index;
   }
 
 }
