@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
+
 import { ProduitService } from './produit.service';
 import { IProduit } from './produit';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -34,13 +35,31 @@ export class ProductComponent implements OnInit {
   contactForm = this.fb.group({
     code: ['ADFG', [Validators.minLength(3), Validators.required]],
     nom: ['HAKIM', [Validators.minLength(3), Validators.required]],
-    qte: ['1', [Validators.minLength(3), Validators.required]],
+    qte: ['1', [Validators.minLength(3), Validators.required, this.nonNegativeQuantityValidator()]],
     image: [''],
   });
 
+
   constructor(private fb: FormBuilder, private produitService: ProduitService) { }
 
+  // Fonction de validation personnalisée pour la quantité non négative
+  nonNegativeQuantityValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value;
+      if (isNaN(value) || value < 0) {
+        return { 'nonNegative': { value } };
+      }
+      return null;
+    };
+  }
+
+
   onSubmit() {
+
+    if (this.contactForm.invalid) {
+      // Ne pas soumettre le formulaire si la validation échoue
+      return;
+    }
 
     try {
       if (this.appState === 'create') {
