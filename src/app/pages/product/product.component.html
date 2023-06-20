@@ -1,12 +1,15 @@
 <div class="container">
 
-
+<div> il y a {{ total }} produits </div>
     <div class="row">
-        <div class="col-8">
+      <div class="text-center mt-4">
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success" (click)="addNewProduct()">Ajouter un nouveau produit</button>
+        </div>
+      </div>
             <h2 class="mt-5">Listes des produits</h2>
             <div *ngIf="produit && produit.length>0" class="shadow-none p-3 mb-5 bg-white d-flex "
-              style="flex-wrap: wrap;"
-              >
+              style="flex-wrap: wrap;">
               <div class="card m-2" style="width: 15rem;" *ngFor="let e of produit; let i = index ">
                   <img [src]="e.image" class="card-img-top" alt="...">
                   <div class="card-body">
@@ -14,16 +17,19 @@
                       <p class="card-text">{{e.code}} qantite:{{e.qte}} </p>
 
                       <div class="d-flex  justify-content-around ">
-                          <button (click)="updateProduct(e,i)" class="btn btn-primary px-4 ">Update</button>
-                          <button (click)="deleteProduct(e,i)" class="btn btn-danger px-4 ">Delete</button>
+                        <button [@buttonAnimation]="buttonState" (click)="updateProduct(e, i)" class="btn btn-primary px-4">Update</button>
+                        <button [@buttonAnimation]="buttonState" (click)="deleteProduct(e, i)" class="btn btn-danger px-4">Delete</button>
+
 
 
                       </div>
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="d-flex justify-content-center align-items-center ">
+
+
+
+        <div *ngIf="showProductForm" class="col-4">
                 <div style="max-width: 600px;" class=" p-3 mb-5 bg-white mt-5 ">
                     <h3>Formulaire d'enregistrement des produits </h3>
                     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
@@ -48,13 +54,9 @@
 
                     </form>
                 </div>
-
-            </div>
         </div>
+
+
+
     </div>
-
-
-
-
-
 </div>

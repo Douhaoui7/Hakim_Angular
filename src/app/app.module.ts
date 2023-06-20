@@ -10,6 +10,8 @@ import { ProductComponent } from './pages/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { CleanName } from './shared/pipes/CleanName.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,19 @@ import { CleanName } from './shared/pipes/CleanName.pipe';
     ProductComponent,
     NavbarComponent,
     CleanName
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    BrowserAnimationsModule,
+    MatDialogModule
+
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
