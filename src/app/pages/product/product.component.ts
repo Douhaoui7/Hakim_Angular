@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
   appState: string = 'create';
   editIndex = 1;
   fileConvert = '';
-  total: number = 0;
+
   contactForm = this.fb.group({
     code: ['ADFG', [Validators.minLength(3), Validators.required]],
     nom: ['HAKIM', [Validators.minLength(3), Validators.required]],
@@ -136,7 +136,6 @@ handleInputChange(event: any) {
   //Recuperation de la liste des produit a partir du local storage
   ngOnInit(): void {
     this.produit = this.produitService.getProduit()
-    this.total = this.produit.length;
   }
 
 }

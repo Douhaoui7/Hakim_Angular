@@ -9,7 +9,7 @@ import { ProductComponent } from './pages/product/product.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/navbar/navbar.component';
-import { CleanName } from './shared/pipes/CleanName.pipe';
+import { CleanNamePipe } from './shared/pipes/CleanName.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -19,7 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ShopComponent,
     ProductComponent,
     NavbarComponent,
-    CleanName
+    CleanNamePipe
 
   ],
   imports: [

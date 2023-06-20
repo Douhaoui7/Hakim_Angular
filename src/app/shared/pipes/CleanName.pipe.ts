@@ -2,17 +2,16 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 // Definition d'une pipe (CleanName) qui permet supprimer les carracteres speciaux
 @Pipe({
-    name:'CleanName'
+    name:'CleanNamePipe'
 })
 
-export class CleanName implements PipeTransform {
+export class CleanNamePipe implements PipeTransform {
 
-    transform(value: string) : string{
-        if(!!value){
-           return value.replace("*" , "").replace("#" , "").replace("/" , "").replace("!" , "");
-        }else{
-            return ''
-        }
+  transform(value: string): string {
+    if (value) {
+      const specialChars = /[+=*#\/!]/g;
+      return value.replace(specialChars, '');
     }
-
+    return '';
+  }
 }

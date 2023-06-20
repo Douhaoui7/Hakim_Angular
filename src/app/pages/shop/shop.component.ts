@@ -9,70 +9,70 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  public shop: IShop[] = [];
+  showShopForm: boolean = false;
+  shop: IShop[] = [];
   appState: string = 'create';
-  editIndex = 1;
-  fileConvert = '';
-
-  constructor(private fb: FormBuilder, private shopService: ShopService) {}
+  editIndex: number = -1;
+  fileConvert: string = '';
 
   contactForm = this.fb.group({
     nom: ['', [Validators.minLength(3), Validators.required]],
     adresse: ['', [Validators.minLength(3), Validators.required]],
-    image: [''],
+    image: ['']
   });
 
-  ngOnInit(): void {
-    this.shop = this.shopService.getShop();
-  }
+  constructor(private fb: FormBuilder, private shopService: ShopService) {}
 
   onSubmit() {
-    if (this.appState === 'create') {
-      if (!!localStorage.getItem('saveShop')) {
-        let iShop: IShop[] = [];
-        let local = localStorage.getItem('saveShop');
-        if (!!local) iShop = JSON.parse(local);
-
+    try {
+      if (this.appState === 'create') {
+        const iShop = JSON.parse(localStorage.getItem('saveShop') || '[]') as IShop[];
         iShop.push(this.contactForm.value);
         localStorage.setItem('saveShop', JSON.stringify(iShop));
-      } else {
-        let save: IShop[] = [];
-        save.push(this.contactForm.value);
-        localStorage.setItem('saveShop', JSON.stringify(save));
-      }
-
-      this.shop = this.shopService.getShop();
-    } else if (this.appState === 'edit') {
-      if (!!localStorage.getItem('saveShop')) {
-        let iShop: IShop[] = [];
-        let local = localStorage.getItem('saveShop');
-        if (!!local) iShop = JSON.parse(local);
+      } else if (this.appState === 'edit' && this.editIndex >= 0) {
+        const iShop = JSON.parse(localStorage.getItem('saveShop') || '[]') as IShop[];
         iShop.splice(this.editIndex, 1, this.contactForm.value);
         localStorage.setItem('saveShop', JSON.stringify(iShop));
+        this.appState = 'create';
       }
+    } catch (error) {
+      console.error('Erreur lors de l\'accès au stockage local:', error);
+      // Handle the error appropriately
     }
+
     this.contactForm.reset();
     this.shop = this.shopService.getShop();
+    this.showShopForm = false;
+  }
+
+    addNewShop() {
+
+    this.showShopForm = true;
+
+    // Réinitialise le formulaire et l'état de l'application pour ajouter un nouveau produit
+
+    this.contactForm.reset();
+    this.appState = 'create';
   }
 
   deleteShop(shop: IShop, index: number) {
-    if (!!localStorage.getItem('saveShop')) {
-      let iShop: IShop[] = [];
-      let local = localStorage.getItem('saveShop');
-      if (!!local) iShop = JSON.parse(local);
-      iShop.splice(index, 1);
-
-      localStorage.setItem('saveShop', JSON.stringify(iShop));
-
-      this.shop = this.shopService.getShop();
-    }
+    const iShop = JSON.parse(localStorage.getItem('saveShop') || '[]') as IShop[];
+    iShop.splice(index, 1);
+    localStorage.setItem('saveShop', JSON.stringify(iShop));
+    this.shop = this.shopService.getShop();
   }
 
   updateShop(shop: IShop, index: number) {
+
+    this.showShopForm = true;
+
     this.contactForm.get('adresse')?.setValue(shop.adresse.toString());
     this.contactForm.get('nom')?.setValue(shop.nom.toString());
     this.appState = 'edit';
     this.editIndex = index;
   }
 
+  ngOnInit(): void {
+    this.shop = this.shopService.getShop();
+  }
 }

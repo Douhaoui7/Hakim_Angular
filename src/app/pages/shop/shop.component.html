@@ -1,14 +1,19 @@
 <div class="container">
 
   <div class="row">
+
+    <div class="text-center mt-4">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-success" (click)="addNewShop()">Ajouter un nouveau magasin</button>
+      </div>
       <div class="col-8">
           <h2 class="mt-5">Listes des boutiques</h2>
           <div *ngIf="shop && shop.length>0" class=" shadow-none p-3 mb-5 bg-white d-flex "
               style="flex-wrap: wrap;">
               <div class="card m-2" style="width: 18rem;" *ngFor="let e of shop; let i = index">
                 <div class="card-body">
-                      <h5 class="card-title">{{e.nom|CleanName}}</h5>
-                      <p class="card-text">{{e.adresse}} </p>
+                      <h5 class="card-title">{{e.nom|CleanNamePipe}}</h5>
+                      <p class="card-text">{{e.adresse|CleanNamePipe}} </p>
 
                       <div class="d-flex  justify-content-around ">
                           <button (click)="updateShop(e,i)" class="btn btn-primary px-4 ">Update</button>
@@ -22,6 +27,7 @@
           </div>
       </div>
 
+      <div *ngIf="showShopForm" class="col-4">
       <div class="col-4 d-flex justify-content-center align-items-center">
           <div style="max-width: 600px;" class="border shadow-none p-3 mb-5 bg-white mt-5 rounded">
               <h3>Formulaire d'enregistrement des Boutiques</h3>

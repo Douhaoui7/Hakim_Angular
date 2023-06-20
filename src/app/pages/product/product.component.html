@@ -1,6 +1,4 @@
 <div class="container">
-
-<div> il y a {{ total }} produits </div>
     <div class="row">
       <div class="text-center mt-4">
         <div class="d-flex justify-content-end">
@@ -13,7 +11,7 @@
               <div class="card m-2" style="width: 15rem;" *ngFor="let e of produit; let i = index ">
                   <img [src]="e.image" class="card-img-top" alt="...">
                   <div class="card-body">
-                      <h5 class="card-title">{{e.nom|CleanName}}</h5>
+                      <h5 class="card-title">{{e.nom|CleanNamePipe}}</h5>
                       <p class="card-text">{{e.code}} qantite:{{e.qte}} </p>
 
                       <div class="d-flex  justify-content-around ">
