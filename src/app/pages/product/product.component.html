@@ -1,60 +1,77 @@
 <div class="container">
-    <div class="row">
-      <div class="text-center mt-4">
-        <div class="d-flex justify-content-end">
-          <button class="btn btn-success" (click)="addNewProduct()">Ajouter un nouveau produit</button>
-        </div>
+
+
+  <div class="row">
+
+    <div class="text-center mt-4">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-success" (click)="addNewProduct()">Ajouter un nouveau produit</button>
       </div>
-            <h2 class="mt-5">Listes des produits</h2>
-            <div *ngIf="produit && produit.length>0" class="shadow-none p-3 mb-5 bg-white d-flex "
-              style="flex-wrap: wrap;">
-              <div class="card m-2" style="width: 15rem;" *ngFor="let e of produit; let i = index ">
-                  <img [src]="e.image" class="card-img-top" alt="...">
-                  <div class="card-body">
-                      <h5 class="card-title">{{e.nom|CleanNamePipe}}</h5>
-                      <p class="card-text">{{e.code}} qantite:{{e.qte}} </p>
-
-                      <div class="d-flex  justify-content-around ">
-                        <button [@buttonAnimation]="buttonState" (click)="updateProduct(e, i)" class="btn btn-primary px-4">Update</button>
-                        <button [@buttonAnimation]="buttonState" (click)="deleteProduct(e, i)" class="btn btn-danger px-4">Delete</button>
+    </div>
+  </div>
 
 
 
-                      </div>
-                </div>
-            </div>
-        </div>
+  <h2 class="mt-5">Liste des produits</h2>
 
 
+  <div *ngIf="produit && produit.length > 0" class="shadow-none p-3 mb-5 bg-white d-flex" style="flex-wrap: wrap;">
 
-        <div *ngIf="showProductForm" class="col-4">
-                <div style="max-width: 600px;" class=" p-3 mb-5 bg-white mt-5 ">
-                    <h3>Formulaire d'enregistrement des produits </h3>
-                    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-                        <div class="mb-3">
-                            <label for="code" class="form-label">code</label>
-                            <input class="form-control" type="text" id="code" name="code" formControlName="code">
-                        </div>
-                        <div class="mb-3">
-                            <label for="nom" class="form-label">nom</label>
-                            <input class="form-control" type="text" id="nom" name="nom" formControlName="nom">
-                        </div>
-                        <div class="mb-3">
-                            <label for="qte" class="form-label">quantite</label>
-                            <input class="form-control" type="number" id="qte" name="qte" formControlName="qte">
-                        </div>
-                        <div class="mb-3">
-                          <label for="image" class="form-label">image</label>
-                          <input (change)="handleInputChange($event)" accept="image/*" type="file">
-                      </div>
-                        <button type="button" [disabled]="!contactForm.valid" class="btn btn-primary"
-                            type="submit">Submit</button>
+    <div class="card m-2" style="width: 15rem;" *ngFor="let p of produit; let i = index">
+      <img [src]="p.image" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ p.nom | CleanNamePipe }}</h5>
+        <p class="card-text">
+          Réf: {{ p.code }} <br>
+          Quantité: {{ p.qte }} <br>
+          Prix : {{p.price}} €
+        </p>
+      </div>
 
-                    </form>
-                </div>
-        </div>
-
-
+      <div class="d-flex justify-content-around">
+        <button [@buttonAnimation]="buttonState" (click)="updateProduct(p, i)" class="btn btn-primary px-4">Update</button>
+        <button [@buttonAnimation]="buttonState" (click)="deleteProduct(p, i)" class="btn btn-danger px-4">Delete</button>
+      </div>
 
     </div>
+  </div>
+
+  <div *ngIf="showProductForm" class="col-4">
+    <div style="max-width: 600px;" class="p-3 mb-5 bg-white mt-5">
+
+
+
+      <h3>Formulaire d'enregistrement des produits</h3>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="code" class="form-label">Code</label>
+          <input class="form-control" type="text" id="code" name="code" formControlName="code">
+        </div>
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input class="form-control" type="text" id="nom" name="nom" formControlName="nom">
+        </div>
+        <div class="mb-3">
+          <label for="qte" class="form-label">Quantité</label>
+          <input class="form-control" type="number" id="qte" name="qte" formControlName="qte">
+        </div>
+        <div class="mb-3">
+          <div class="mb-3">
+            <label for="price" class="form-label">Prix</label>
+            <input class="form-control" type="text" id="price" name="price" formControlName="price" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+          </div>
+
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image</label>
+          <input (change)="handleInputChange($event)" accept="image/*" type="file">
+        </div>
+
+
+        <button type="button" [disabled]="!contactForm.valid" class="btn btn-primary" type="submit">Submit</button>
+
+
+      </form>
+    </div>
+  </div>
 </div>

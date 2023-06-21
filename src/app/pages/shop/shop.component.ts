@@ -14,6 +14,7 @@ export class ShopComponent implements OnInit {
   appState: string = 'create';
   editIndex: number = -1;
   fileConvert: string = '';
+  total: number = 0;
 
   contactForm = this.fb.group({
     nom: ['', [Validators.minLength(3), Validators.required]],
@@ -37,7 +38,6 @@ export class ShopComponent implements OnInit {
       }
     } catch (error) {
       console.error('Erreur lors de l\'accès au stockage local:', error);
-      // Handle the error appropriately
     }
 
     this.contactForm.reset();
@@ -74,5 +74,6 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     this.shop = this.shopService.getShop();
-  }
+    this.total = this.shop.length;
+    }
 }

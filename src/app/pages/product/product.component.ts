@@ -36,6 +36,7 @@ export class ProductComponent implements OnInit {
     code: ['ADFG', [Validators.minLength(3), Validators.required]],
     nom: ['HAKIM', [Validators.minLength(3), Validators.required]],
     qte: ['1', [Validators.minLength(3), Validators.required, this.nonNegativeQuantityValidator()]],
+    price: ['1', [Validators.required, Validators.min(0)]],
     image: [''],
   });
 
@@ -128,6 +129,7 @@ updateProduct(produit: IProduit, index: number) {
   this.contactForm.get('code')?.setValue(produit.code.toString());
   this.contactForm.get('nom')?.setValue(produit.nom.toString());
   this.contactForm.get('qte')?.setValue(produit.qte);
+  this.contactForm.get('price')?.setValue(produit.price);
   this.contactForm.get('image')?.setValue(produit.image);
   this.appState = 'edit';
   this.editIndex = index

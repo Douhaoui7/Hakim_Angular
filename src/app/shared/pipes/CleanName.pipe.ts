@@ -9,7 +9,7 @@ export class CleanNamePipe implements PipeTransform {
 
   transform(value: string): string {
     if (value) {
-      const specialChars = /[+=*#\/!]/g;
+      const specialChars = /[+=*#\/!|]/g;
       return value.replace(specialChars, '');
     }
     return '';
