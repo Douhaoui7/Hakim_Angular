@@ -6,7 +6,7 @@
         <button class="btn btn-success" (click)="addNewShop()">Ajouter un nouveau magasin</button>
       </div>
       <div class="col-8">
-          <h2 class="mt-5">Listes des boutiques</h2>
+          <h2 class="mt-5">Les boutiques</h2>
           <div *ngIf="shop && shop.length>0" class=" shadow-none p-3 mb-5 bg-white d-flex "
               style="flex-wrap: wrap;">
               <div class="card m-2" style="width: 18rem;" *ngFor="let e of shop; let i = index">
@@ -31,7 +31,7 @@
           <div style="max-width: 1000px;" class="border shadow-none p-3 mb-5 bg-white mt-5 rounded">
 
 
-            <h4 class="text-center">Formulaire d'enregistrement des Boutiques</h4>
+            <h4 class="text-center">Formulaire des Boutiques</h4>
             <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="text-center">
               <div class="mb-3">
                 <label for="nom" class="form-label">Nom</label>

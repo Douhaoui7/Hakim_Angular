@@ -55,18 +55,6 @@ export class ProductComponent implements OnInit {
     };
   }
 
-  decimalValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value;
-      const regex = /^\d+(\.\d{1,2})?$/; // Expression régulière pour accepter un seul point décimal
-
-      if (!regex.test(value)) {
-        return { 'decimal': { value } };
-      }
-      return null;
-    };
-  }
-
 
 
   onSubmit() {

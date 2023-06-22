@@ -12,7 +12,7 @@
 
 
 
-  <h2 class="mt-5">Liste des produits</h2>
+  <h2 class="mt-5">Les produits</h2>
 
 
   <div *ngIf="produit && produit.length > 0" class="shadow-none p-3 mb-5 bg-white d-flex" style="flex-wrap: wrap;">
@@ -41,7 +41,7 @@
 
 
 
-      <h4>Formulaire d'enregistrement des produits</h4>
+      <h4>Formulaire des produits</h4>
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="code" class="form-label">SKU</label>
