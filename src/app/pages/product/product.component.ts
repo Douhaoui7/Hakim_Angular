@@ -9,6 +9,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
+
   animations: [
     trigger('buttonAnimation', [
       state('inactive', style({
@@ -36,7 +37,7 @@ export class ProductComponent implements OnInit {
     code: ['ADFG', [Validators.minLength(3), Validators.required]],
     nom: ['HAKIM', [Validators.minLength(3), Validators.required]],
     qte: ['1', [Validators.minLength(3), Validators.required, this.nonNegativeQuantityValidator()]],
-    price: ['1', [Validators.required, Validators.min(0)]],
+    price: ['1', [Validators.required, Validators.min(0), this.decimalValidator()]],
     image: [''],
   });
 
@@ -53,6 +54,19 @@ export class ProductComponent implements OnInit {
       return null;
     };
   }
+
+  decimalValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value;
+      const regex = /^\d+(\.\d{1,2})?$/; // Expression régulière pour accepter un seul point décimal
+
+      if (!regex.test(value)) {
+        return { 'decimal': { value } };
+      }
+      return null;
+    };
+  }
+
 
 
   onSubmit() {
